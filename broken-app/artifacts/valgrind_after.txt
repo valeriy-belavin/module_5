@@ -1,0 +1,78 @@
+==106773== Memcheck, a memory error detector
+==106773== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==106773== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==106773== Command: target/debug/deps/integration-81ed5c4d77267b8a
+==106773== 
+
+running 18 tests
+test counts_non_zero_empty ... ok
+test averages_all_negative ... ok
+test dedup_preserves_uniques ... ok
+test sums_even_all_odd ... ok
+test fib_zero ... ok
+test sums_even_empty ... ok
+test dedup_empty ... ok
+test counts_non_zero_bytes ... ok
+test normalize_simple ... ok
+test normalize_tabs ... ok
+test averages_empty ... ok
+test sums_even_numbers ... ok
+test fib_one ... ok
+test averages_only_positive ... ok
+test counts_non_zero_all_zeros ... ok
+test normalize_multiple_spaces ... ok
+test fib_small_numbers ... ok
+test race_increment_tests ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s
+
+==106773== 
+==106773== HEAP SUMMARY:
+==106773==     in use at exit: 592 bytes in 2 blocks
+==106773==   total heap usage: 1,076 allocs, 1,074 frees, 135,174 bytes allocated
+==106773== 
+==106773== 48 bytes in 1 blocks are possibly lost in loss record 1 of 2
+==106773==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==106773==    by 0x1B5EEB: alloc (unix.rs:14)
+==106773==    by 0x1B5EEB: alloc_impl (alloc.rs:151)
+==106773==    by 0x1B5EEB: allocate (alloc.rs:214)
+==106773==    by 0x1B5EEB: {closure#0}<std::thread::thread::Inner, std::alloc::System> (sync.rs:805)
+==106773==    by 0x1B5EEB: allocate_for_layout<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>, alloc::sync::{impl#17}::new_uninit_in::{closure_env#0}<std::thread::thread::Inner, std::alloc::System>, fn(*mut u8) -> *mut alloc::sync::ArcInner<core::mem::maybe_uninit::MaybeUninit<std::thread::thread::Inner>>> (sync.rs:2162)
+==106773==    by 0x1B5EEB: new_uninit_in<std::thread::thread::Inner, std::alloc::System> (sync.rs:803)
+==106773==    by 0x1B5EEB: std::thread::thread::Thread::new (thread.rs:102)
+==106773==    by 0x1B615F: std::thread::current::init_current (current.rs:294)
+==106773==    by 0x1B5345: current_or_unnamed (current.rs:251)
+==106773==    by 0x1B5345: std::sync::mpmc::context::Context::new (context.rs:72)
+==106773==    by 0x15762A: __rust_std_internal_init_fn (context.rs:43)
+==106773==    by 0x15762A: call_once<fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, ()> (function.rs:250)
+==106773==    by 0x15762A: unwrap_or_else<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (option.rs:1067)
+==106773==    by 0x15762A: std::sys::thread_local::native::lazy::Storage<T,D>::get_or_init_slow (lazy.rs:80)
+==106773==    by 0x158D32: get_or_init<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, (), fn() -> core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>> (lazy.rs:62)
+==106773==    by 0x158D32: {closure#0} (mod.rs:97)
+==106773==    by 0x158D32: call_once<std::sync::mpmc::context::{impl#0}::with::CONTEXT::{constant#0}::{closure_env#0}, (core::option::Option<&mut core::option::Option<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>>>)> (function.rs:250)
+==106773==    by 0x158D32: try_with<core::cell::Cell<core::option::Option<std::sync::mpmc::context::Context>>, std::sync::mpmc::context::{impl#0}::with::{closure_env#1}<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()>, ()> (local.rs:512)
+==106773==    by 0x158D32: with<std::sync::mpmc::list::{impl#3}::recv::{closure_env#1}<test::event::CompletedTest>, ()> (context.rs:53)
+==106773==    by 0x158D32: std::sync::mpmc::list::Channel<T>::recv (list.rs:442)
+==106773==    by 0x175CF0: recv_deadline<test::event::CompletedTest> (mod.rs:1120)
+==106773==    by 0x175CF0: recv_timeout<test::event::CompletedTest> (mod.rs:1052)
+==106773==    by 0x175CF0: recv_timeout<test::event::CompletedTest> (mpsc.rs:909)
+==106773==    by 0x175CF0: run_tests<test::console::run_tests_console::{closure_env#2}> (lib.rs:456)
+==106773==    by 0x175CF0: test::console::run_tests_console (console.rs:327)
+==106773==    by 0x17E698: test_main_with_exit_callback<test::test_main::{closure_env#0}> (lib.rs:160)
+==106773==    by 0x17E698: test::test_main (lib.rs:101)
+==106773==    by 0x16960A: test::test_main_static (lib.rs:183)
+==106773==    by 0x14A062: integration::main (integration.rs:0)
+==106773==    by 0x148A2A: core::ops::function::FnOnce::call_once (function.rs:250)
+==106773==    by 0x14885D: std::sys::backtrace::__rust_begin_short_backtrace (backtrace.rs:166)
+==106773== 
+==106773== LEAK SUMMARY:
+==106773==    definitely lost: 0 bytes in 0 blocks
+==106773==    indirectly lost: 0 bytes in 0 blocks
+==106773==      possibly lost: 48 bytes in 1 blocks
+==106773==    still reachable: 544 bytes in 1 blocks
+==106773==         suppressed: 0 bytes in 0 blocks
+==106773== Reachable blocks (those to which a pointer was found) are not shown.
+==106773== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==106773== 
+==106773== For lists of detected and suppressed errors, rerun with: -s
+==106773== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
